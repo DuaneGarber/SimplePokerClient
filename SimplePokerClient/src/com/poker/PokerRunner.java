@@ -1,11 +1,16 @@
 package com.poker;
 
+import org.apache.log4j.Logger;
+
 public class PokerRunner {
 
+	private static Logger LOG =
+            Logger.getLogger(PokerRunner.class);
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		LOG.debug("Starting Poker Command Line Runner");
 		Deck deck = new Deck();
 		Hand hand = new Hand();
 		deck.shuffle();
@@ -14,6 +19,7 @@ public class PokerRunner {
 			hand.addCard(deck.getNextCard());
 		}
 		hand.showHand();
+		LOG.debug("Execution Poker Command Line Complete");
 	}
 
 }
