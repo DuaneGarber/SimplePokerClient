@@ -2,8 +2,12 @@ package com.poker;
 
 import java.util.Comparator;
 
+import org.apache.log4j.Logger;
+
 public class Card {
 
+	private static Logger LOG = Logger.getLogger(Card.class);
+	
 	private Suit suit = null;	
 	private Value value = null;
 	
@@ -30,7 +34,7 @@ public class Card {
 	}
 	
 	public void showCard() {
-		System.out.println(getValue().name() + " of " + getSuit().name());
+		LOG.info(getValue().name() + " of " + getSuit().name());
 	}
 	
 	private class CardInitializationException extends Exception{

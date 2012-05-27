@@ -1,5 +1,6 @@
 package com.poker;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -15,7 +16,8 @@ public class Hand {
 	private SortedSet<Card> diamondsBucket = new TreeSet<Card>(new CardComparator());
 	private SortedSet<Card> heartsBucket = new TreeSet<Card>(new CardComparator());
 	private SortedSet<Card> spadesBucket = new TreeSet<Card>(new CardComparator());
-	private SortedSet<Card> straightBucket = new TreeSet<Card>(new CardComparator());
+	private HashMap<Value, Suit> straightBucket = new HashMap<Value, Suit>();
+	 
 	
 	public void addCard(Card card){
 		
@@ -37,6 +39,8 @@ public class Hand {
 			spadesBucket.add(card);
 			break;
 		}
+		straightBucket.put(card.getValue(), card.getSuit());
+//		straightBucket.
 			
 	}
 	
@@ -47,29 +51,71 @@ public class Hand {
 	    	card = handIter.next();
 	    	card.showCard();
 	    }
+	    LOG.info("Hand Value = " + evaluateHand().name());
 	}
 	
 	
-	private HandOrder evaluateHand(){
+	public HandOrder evaluateHand(){
 		LOG.trace("Begin -- evaluateHand");
 		Iterator<Card> handIter = cards.iterator();
 		Card card = null;
-		boolean isStraight = false;
-		boolean isFlush = false;
+//		boolean isStraight = false;
+//		boolean isFlush = false;
+		
+		HandOrder handOrder = HandOrder.HIGH_CARD;
 		
 		if(clubsBucket.size() >= 5 || diamondsBucket.size() >= 5 || heartsBucket.size() >= 5 || spadesBucket.size() >= 5){
-			isFlush = true;
+//			isFlush = true;
 			LOG.debug("Found a Flush");
+			handOrder = setHandOrder(handOrder, HandOrder.FLUSH);
 		}
+		
+		int currentValue = 0;
+		int previousValue = -1;
+		int runCount = 0;
+		boolean isPair = false;
+		boolean isThreeOfAKind = false;
 		
 	    while ( handIter.hasNext() ){
 	    	card = handIter.next();
-	    	
-	    	
+	    	currentValue = card.getValue().ordinal();
+	    	if(previousValue == -1){
+	    		previousValue = currentValue;
+	    		continue;
+	    	}
+	    	if(previousValue == currentValue){
+	    		handOrder = setHandOrder(handOrder, HandOrder.PAIR);
+	    		if(isPair){
+	    			handOrder = setHandOrder(handOrder, HandOrder.THREE_OF_A_KIND);
+	    			if(isThreeOfAKind){
+	    				handOrder = setHandOrder(handOrder, HandOrder.FOUR_OF_A_KIND);
+	    			}
+	    		} else {
+	    			isPair = true;
+	    		}	
+	    	} else {
+	    		isPair = false;
+	    		isThreeOfAKind = false;
+	    		if((previousValue - 1) == currentValue ){
+	    			runCount++;
+	    			if(runCount >= 5){
+	    				handOrder = setHandOrder(handOrder, HandOrder.STRAIGHT);
+	    			}
+	    		}
+	    	}
+	    	previousValue = currentValue;
 	    }
 	    LOG.trace("Ending -- evaluateHand");
-	    return null;
+	    return handOrder;
 	    
+	}
+	
+	private HandOrder setHandOrder(HandOrder hand, HandOrder order){
+		if(hand.ordinal() < order.ordinal()){
+			return hand;
+		} else {
+			return order;
+		}
 	}
 	
 	private boolean hasStraight(){
