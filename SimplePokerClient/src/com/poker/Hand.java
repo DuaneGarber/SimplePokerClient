@@ -76,6 +76,10 @@ public class Hand {
 		boolean isPair = false;
 		boolean isThreeOfAKind = false;
 		
+		
+		int firstPairValue = -1;
+		int firstThreeOfAKindValue = -1;
+		
 	    while ( handIter.hasNext() ){
 	    	card = handIter.next();
 	    	currentValue = card.getValue().ordinal();
@@ -84,14 +88,40 @@ public class Hand {
 	    		continue;
 	    	}
 	    	if(previousValue == currentValue){
-	    		handOrder = setHandOrder(handOrder, HandOrder.PAIR);
 	    		if(isPair){
-	    			handOrder = setHandOrder(handOrder, HandOrder.THREE_OF_A_KIND);
-	    			if(isThreeOfAKind){
-	    				handOrder = setHandOrder(handOrder, HandOrder.FOUR_OF_A_KIND);
+	    			//Ok so we know its atleast a 3 of a kind
+	    			//Check for a previous Pair
+	    			if(firstPairValue != currentValue){
+	    				handOrder = setHandOrder(handOrder, HandOrder.FULL_HOUSE);
+	    			}
+    				if(isThreeOfAKind){
+    					handOrder = setHandOrder(handOrder, HandOrder.FOUR_OF_A_KIND);
+    				}
+    				else{
+	    				handOrder = setHandOrder(handOrder, HandOrder.THREE_OF_A_KIND);
+	    				isThreeOfAKind = true;
+	    				//Incase of 2 3 of a Kinds, we only care about the first one
+	    				if(firstThreeOfAKindValue == -1){
+	    					firstThreeOfAKindValue = currentValue;
+	    					if(firstPairValue == currentValue){
+	    						firstPairValue = -1;
+	    					} else {
+	    						handOrder = setHandOrder(handOrder, HandOrder.FULL_HOUSE);
+	    					}
+	    				}
 	    			}
 	    		} else {
 	    			isPair = true;
+	    			if(firstPairValue == -1){
+	    				if(firstThreeOfAKindValue != -1){
+	    					handOrder = setHandOrder(handOrder, HandOrder.FULL_HOUSE);
+	    				} else {
+		    	    		handOrder = setHandOrder(handOrder, HandOrder.PAIR);
+	    				}
+	    				firstPairValue = currentValue;
+	    			} else {
+	    				handOrder = setHandOrder(handOrder, HandOrder.TWO_PAIR);
+	    			}
 	    		}	
 	    	} else {
 	    		isPair = false;

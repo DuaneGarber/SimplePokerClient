@@ -1,7 +1,6 @@
 package com.poker;
 
 public enum Value {
-	ACE,
 	TWO,
 	THREE,
 	FOUR,
@@ -13,5 +12,6 @@ public enum Value {
 	TEN,
 	JACK,
 	QUEEN,
-	KING
+	KING,
+	ACE
 }
