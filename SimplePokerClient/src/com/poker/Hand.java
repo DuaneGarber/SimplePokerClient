@@ -19,6 +19,10 @@ public class Hand {
 	private HashMap<Value, Suit> straightBucket = new HashMap<Value, Suit>();
 	 
 	
+	public SortedSet<Card> getCards(){
+		return cards;
+	}
+	
 	public void addCard(Card card){
 		
 		cards.add(card);

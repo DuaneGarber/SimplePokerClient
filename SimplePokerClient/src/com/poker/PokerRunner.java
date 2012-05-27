@@ -21,5 +21,25 @@ public class PokerRunner {
 		hand.showHand();
 		LOG.debug("Execution Poker Command Line Complete");
 	}
+	
+	public Deck init(){
+		LOG.trace("Begin -- init");
+		Deck deck = new Deck();
+		
+		deck.shuffle();
+		
+		
+		LOG.trace("Ending -- init");
+		return deck;
+	}
+	
+	public Hand getHand(Deck deck){
+		Hand hand = new Hand();
+		for (int i = 0; i < 10; i++) {
+			
+			hand.addCard(deck.getNextCard());
+		}
+		return hand;
+	}
 
 }
