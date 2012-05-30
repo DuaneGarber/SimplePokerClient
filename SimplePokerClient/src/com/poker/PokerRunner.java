@@ -34,11 +34,13 @@ public class PokerRunner {
 	}
 	
 	public Hand getHand(Deck deck){
+		LOG.trace("Begin -- getHand");
 		Hand hand = new Hand();
 		for (int i = 0; i < 10; i++) {
 			
 			hand.addCard(deck.getNextCard());
 		}
+		LOG.trace("Ending -- getHand");
 		return hand;
 	}
 

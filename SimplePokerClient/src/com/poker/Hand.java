@@ -1,6 +1,5 @@
 package com.poker;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -11,18 +10,26 @@ public class Hand {
 
 	private static Logger LOG = Logger.getLogger(Hand.class);
 	
+	// SortedSet was chosen because
+	// I wanted to ensure the cards were unique
+	// I wanted to ensure the cards were in order (for straight calculation)
 	private SortedSet<Card> cards = new TreeSet<Card>(new CardComparator());
 	private SortedSet<Card> clubsBucket = new TreeSet<Card>(new CardComparator());
 	private SortedSet<Card> diamondsBucket = new TreeSet<Card>(new CardComparator());
 	private SortedSet<Card> heartsBucket = new TreeSet<Card>(new CardComparator());
 	private SortedSet<Card> spadesBucket = new TreeSet<Card>(new CardComparator());
-	private HashMap<Value, Suit> straightBucket = new HashMap<Value, Suit>();
+//	private HashMap<Value, Suit> straightBucket = new HashMap<Value, Suit>();
+	private HandOrder handOrder = HandOrder.HIGH_CARD;
 	 
 	
 	public SortedSet<Card> getCards(){
 		return cards;
 	}
 	
+	/**
+	 * Add a card to the player's hand
+	 * @param card
+	 */
 	public void addCard(Card card){
 		
 		cards.add(card);
@@ -43,11 +50,12 @@ public class Hand {
 			spadesBucket.add(card);
 			break;
 		}
-		straightBucket.put(card.getValue(), card.getSuit());
-//		straightBucket.
 			
 	}
 	
+	/**
+	 * Simple display function
+	 */
 	public void showHand(){
 		Iterator<Card> handIter = cards.iterator();
 		Card card = null;
@@ -58,20 +66,20 @@ public class Hand {
 	    LOG.info("Hand Value = " + evaluateHand().name());
 	}
 	
-	
+	/**
+	 * This method is a mess, went through brute force, will re-evaluate later after more functionality built in
+	 * @return
+	 */
 	public HandOrder evaluateHand(){
 		LOG.trace("Begin -- evaluateHand");
 		Iterator<Card> handIter = cards.iterator();
 		Card card = null;
-//		boolean isStraight = false;
-//		boolean isFlush = false;
 		
-		HandOrder handOrder = HandOrder.HIGH_CARD;
+		
 		
 		if(clubsBucket.size() >= 5 || diamondsBucket.size() >= 5 || heartsBucket.size() >= 5 || spadesBucket.size() >= 5){
-//			isFlush = true;
 			LOG.debug("Found a Flush");
-			handOrder = setHandOrder(handOrder, HandOrder.FLUSH);
+			setHandOrder(HandOrder.FLUSH);
 		}
 		
 		int currentValue = 0;
@@ -96,13 +104,13 @@ public class Hand {
 	    			//Ok so we know its atleast a 3 of a kind
 	    			//Check for a previous Pair
 	    			if(firstPairValue != currentValue){
-	    				handOrder = setHandOrder(handOrder, HandOrder.FULL_HOUSE);
+	    				setHandOrder(HandOrder.FULL_HOUSE);
 	    			}
     				if(isThreeOfAKind){
-    					handOrder = setHandOrder(handOrder, HandOrder.FOUR_OF_A_KIND);
+    					setHandOrder(HandOrder.FOUR_OF_A_KIND);
     				}
     				else{
-	    				handOrder = setHandOrder(handOrder, HandOrder.THREE_OF_A_KIND);
+	    				setHandOrder(HandOrder.THREE_OF_A_KIND);
 	    				isThreeOfAKind = true;
 	    				//Incase of 2 3 of a Kinds, we only care about the first one
 	    				if(firstThreeOfAKindValue == -1){
@@ -110,7 +118,7 @@ public class Hand {
 	    					if(firstPairValue == currentValue){
 	    						firstPairValue = -1;
 	    					} else {
-	    						handOrder = setHandOrder(handOrder, HandOrder.FULL_HOUSE);
+	    						setHandOrder(HandOrder.FULL_HOUSE);
 	    					}
 	    				}
 	    			}
@@ -118,13 +126,13 @@ public class Hand {
 	    			isPair = true;
 	    			if(firstPairValue == -1){
 	    				if(firstThreeOfAKindValue != -1){
-	    					handOrder = setHandOrder(handOrder, HandOrder.FULL_HOUSE);
+	    					setHandOrder(HandOrder.FULL_HOUSE);
 	    				} else {
-		    	    		handOrder = setHandOrder(handOrder, HandOrder.PAIR);
+		    	    		setHandOrder(HandOrder.PAIR);
 	    				}
 	    				firstPairValue = currentValue;
 	    			} else {
-	    				handOrder = setHandOrder(handOrder, HandOrder.TWO_PAIR);
+	    				setHandOrder(HandOrder.TWO_PAIR);
 	    			}
 	    		}	
 	    	} else {
@@ -133,52 +141,59 @@ public class Hand {
 	    		if((previousValue - 1) == currentValue ){
 	    			runCount++;
 	    			if(runCount >= 5){
-	    				handOrder = setHandOrder(handOrder, HandOrder.STRAIGHT);
+	    				setHandOrder(HandOrder.STRAIGHT);
 	    			}
 	    		}
 	    	}
 	    	previousValue = currentValue;
 	    }
 	    LOG.trace("Ending -- evaluateHand");
-	    return handOrder;
+	    return getHandOrder();
 	    
 	}
 	
-	private HandOrder setHandOrder(HandOrder hand, HandOrder order){
-		if(hand.ordinal() < order.ordinal()){
-			return hand;
-		} else {
-			return order;
+	/**
+	 * This is basically a safety function that ensures that the higher HandValue will always remain
+	 * @param newhandOrder the HandOrder to be evaluated
+	 */
+	private void setHandOrder(HandOrder newhandOrder) {
+		if(getHandOrder().ordinal() > newhandOrder.ordinal()){
+			handOrder = newhandOrder;
 		}
 	}
 	
-	private boolean hasStraight(){
-		
-		int tempHandCount = cards.size();
-		Card card = null;
-		int currentValue = 0;
-		int previousValue = -1;
-		
-		Iterator<Card> handIter = cards.iterator();
-		
-		while ( handIter.hasNext() ){
-	    	card = handIter.next();
-	    	tempHandCount--;
-	    	currentValue = card.getValue().ordinal();
-	    	if(previousValue == -1){
-	    		continue;
-	    	} else {
-	    		//slots?
-	    	}
-	    	
-	    	
-	    	//cards.
-	    	
-	    }
-		
-		return false;
-		
+	private HandOrder getHandOrder(){
+		return handOrder;
 	}
+	
+	
+//	private boolean hasStraight(){
+//		
+//		int tempHandCount = cards.size();
+//		Card card = null;
+//		int currentValue = 0;
+//		int previousValue = -1;
+//		
+//		Iterator<Card> handIter = cards.iterator();
+//		
+//		while ( handIter.hasNext() ){
+//	    	card = handIter.next();
+//	    	tempHandCount--;
+//	    	currentValue = card.getValue().ordinal();
+//	    	if(previousValue == -1){
+//	    		continue;
+//	    	} else {
+//	    		//slots?
+//	    	}
+//	    	
+//	    	
+//	    	//cards.
+//	    	
+//	    }
+//		
+//		return false;
+//		
+//	}
 	
 
 }

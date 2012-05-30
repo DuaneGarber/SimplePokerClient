@@ -1,3 +1,7 @@
+/**
+ * Basic card object, holds the suit and card value.
+ */
+
 package com.poker;
 
 import java.util.Comparator;
@@ -11,24 +15,49 @@ public class Card {
 	private Suit suit = null;	
 	private Value value = null;
 	
+	/**
+	 * Basic Card constructor
+	 * @param suit -- Suit of the card
+	 * @param value -- Value of the card
+	 */
 	Card(Suit suit, Value value){
 		setSuit(suit);
 		setValue(value);
 	}
 	
+	/**
+	 * Constructor hidden, requires Suit and Value info
+	 * @throws CardInitializationException
+	 */
 	Card() throws CardInitializationException{
 		throw new CardInitializationException("Default Constructor disabled, Please use Card(Suit, Value)");
 	}
 	
+	/**
+	 * Basic Suit getter
+	 * @return
+	 */
 	public Suit getSuit() {
 		return suit;
 	}
+	/**
+	 * Basic Suit setter
+	 * @param suit
+	 */
 	private void setSuit(Suit suit) {
 		this.suit = suit;
 	}
+	/**
+	 * Basic value getter
+	 * @return
+	 */
 	public Value getValue() {
 		return value;
 	}
+	/**
+	 * Ecapsulate the Value setter
+	 * @param value
+	 */
 	private void setValue(Value value) {
 		this.value = value;
 	}
@@ -52,7 +81,11 @@ public class Card {
 	
 	
 }
-
+/**
+ * Define a Comparator for a certain card 
+ * @author Duane
+ *
+ */
 class CardComparator implements Comparator<Card>{
 
 	@Override
