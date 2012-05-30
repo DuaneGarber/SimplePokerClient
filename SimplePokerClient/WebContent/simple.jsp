@@ -31,6 +31,7 @@ Card card = null;
             }
         </style>
 		<script SRC="javascript/CardFunctions.js" ></script>
+		<script SRC="javascript/jquery/jquery-1.7.2.js" ></script>
         <script>
             
             var canvas = null;
@@ -54,6 +55,27 @@ Card card = null;
             
             	CardFunctions.drawText(10, 250, "<%= myHand.evaluateHand() %>");
             };
+            
+            var getNewCards = function(){
+            	//Erases the canvas
+            	canvas.width = canvas.width;
+            	
+            	
+            	
+            	//$.ajax({
+            	//	  url: 'response/PokerClientResponse',
+            	//	  dataType: 'json',
+            	//	  data: data,
+            	//	  success: function(data) {
+            			    
+            	//		  	alert(data);
+            	//		    alert('Load was performed.');
+            	//		  }
+            	//	});
+            	$.get("response/PokerClientResponse", function(data){
+            		alert("Data Loaded: " + data);
+            		});
+            };
 						
         </script>
         
@@ -76,5 +98,6 @@ while ( handIter.hasNext() ){
 
 <canvas id="PlayingTable" width="600" height="250">
         </canvas>
+<input type="button" id="dealButton" value="Deal" onclick="getNewCards()" /> 
 </body>
 </html>

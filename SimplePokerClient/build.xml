@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SimplePokerClient" default="dist" basedir=".">
+
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="lib" location="lib"/>
+  <property name="tomcat.lib" location="C:\apache\tomcat\lib"/>
+  <property name="java.lib" location="C:\Java\jre6\lib"/>
+  <property name="build" location="WebContent\WEB-INF\classes"/>
+  <property name="dist"  location="dist"/>
+  
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+  
+  <path id="classpath">
+    <fileset dir="${lib}">
+    	 <include name="*.jar" />
+    </fileset>
+    <fileset dir="${tomcat.lib}">
+    	 <include name="*.jar" />
+    </fileset>
+    <fileset dir="${java.lib}">
+    	 <include name="*.jar" />
+    </fileset>
+  </path>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+        
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}">
+    	<classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="dist" depends="compile"
+        description="generate the distribution" >
+         
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/MyProject-${DSTAMP}.jar" basedir="${build}"/>
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+  <target name="create">
+		<war destfile="PokerClient.war" webxml="WebContent/WEB-INF/web.xml" update="true">
+			<classes dir="${build}"/>
+			<fileset dir="WebContent">
+				<exclude name="WEB-INF/web.xml"/>
+		</fileset>
+		</war>
+</target>
+</project>
