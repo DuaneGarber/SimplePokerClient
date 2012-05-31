@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 /**
  * Servlet implementation class PokerClientResponse
  */
@@ -36,6 +39,7 @@ public class PokerClientResponse extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOG.trace("Begin -- doGet");
 		LOG.debug("In do get");
+		 JsonArray arrayObj=new JsonArray();
 		
 		response.setContentType("application/json");
 		// Get the printwriter object from response to write the required json object to the output stream      
@@ -49,19 +53,40 @@ public class PokerClientResponse extends HttpServlet {
 		Iterator<Card> handIter = myHand.getCards().iterator();
 
 		Card card = null;
-		StringBuilder jsonString = new StringBuilder("[");
 		
 		LOG.debug("About to build string");
 		
+//		LOG.debug("GSON = " + gson.toJson(myHand));
+		
+		JsonArray parentArray = new JsonArray();
+		
+		JsonArray cardArray = new JsonArray();
+		JsonObject json = null;
         while ( handIter.hasNext() ){
         	card = handIter.next();
-        	jsonString.append("[" + card.getValue().displaySymbol() + ", " + card.getSuit() + " ]");
+        	json = new JsonObject();
         	
+        	json.addProperty("Suit", card.getSuit().name());
+        	json.addProperty("Value", card.getValue().displaySymbol());
+        	
+        	
+        	cardArray.add(json);
+        	
+        	json.addProperty("Card" , card.getValue().displaySymbol());
+//        	json.addProperty("Suit", card.getSuit().name());
+        	
+        	arrayObj.add(json);
         }
-		jsonString.append("]");
+        
+        json = new JsonObject();
+        json.addProperty("HandValue", myHand.evaluateHand().name());
+        parentArray.add(json);
+        parentArray.add(arrayObj);
 		
-		LOG.debug("Final String = " + jsonString.toString());
-		out.print(jsonString.toString());
+//        arrayObj.add(json);
+
+		LOG.debug("Test " + parentArray.toString());
+		out.print(parentArray);
 		out.flush();
 		
 		// TODO Auto-generated method stub

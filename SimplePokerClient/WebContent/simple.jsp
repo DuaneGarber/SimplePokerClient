@@ -73,7 +73,23 @@ Card card = null;
             	//		  }
             	//	});
             	$.get("response/PokerClientResponse", function(data){
-            		alert("Data Loaded: " + data);
+            			jsObj = $.parseJSON( data );
+            			console.log(jsObj);
+            			$.each(jsObj, function(index, value) { 
+            				
+            				if($.isArray(value)){
+            			  		var x = 10;
+            			  		console.log(value);
+            			  		$.each(value, function(i, cardObj){
+            			  			CardFunctions.drawCard(x, 150, cardObj[1], cardObj[0]);
+            			  			console.log(cardObj[1] + " -- " + cardObj[0] + " == " + cardObj);
+            			  			x += 55;
+            			  		});
+            			  	} else {
+            			  		CardFunctions.drawText(10, 250, value);
+            			  	}
+            				 
+            			});
             		});
             };
 						
