@@ -66,13 +66,14 @@ public class PokerClientResponse extends HttpServlet {
         	card = handIter.next();
         	json = new JsonObject();
         	
-        	json.addProperty("Suit", card.getSuit().name());
+        	json.addProperty("Suit", card.getSuit().toString());
         	json.addProperty("Value", card.getValue().displaySymbol());
+        	
         	
         	
         	cardArray.add(json);
         	
-        	json.addProperty("Card" , card.getValue().displaySymbol());
+//        	json.addProperty("Card" , card.getValue().displaySymbol());
 //        	json.addProperty("Suit", card.getSuit().name());
         	
         	arrayObj.add(json);
@@ -80,8 +81,9 @@ public class PokerClientResponse extends HttpServlet {
         
         json = new JsonObject();
         json.addProperty("HandValue", myHand.evaluateHand().name());
+        parentArray.add(cardArray);
         parentArray.add(json);
-        parentArray.add(arrayObj);
+        
 		
 //        arrayObj.add(json);
 
@@ -89,7 +91,6 @@ public class PokerClientResponse extends HttpServlet {
 		out.print(parentArray);
 		out.flush();
 		
-		// TODO Auto-generated method stub
 		LOG.trace("Ending -- doGet");
 	}
 

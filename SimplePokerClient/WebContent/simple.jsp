@@ -41,52 +41,22 @@ Card card = null;
                 canvas = document.getElementById("PlayingTable");
                 context = canvas.getContext("2d");
                 
-                x = 10;
-                <%
-                while ( handIter.hasNext() ){
-                	card = handIter.next();
-                %>
-  					CardFunctions.drawCard(x, 150, "<%= card.getValue().displaySymbol() %>", "<%= card.getSuit() %>" );
-  					x = x + 55;
-                <%
-                }
-
-                %>				            
-            
-            	CardFunctions.drawText(10, 250, "<%= myHand.evaluateHand() %>");
             };
             
             var getNewCards = function(){
             	//Erases the canvas
             	canvas.width = canvas.width;
             	
-            	
-            	
-            	//$.ajax({
-            	//	  url: 'response/PokerClientResponse',
-            	//	  dataType: 'json',
-            	//	  data: data,
-            	//	  success: function(data) {
-            			    
-            	//		  	alert(data);
-            	//		    alert('Load was performed.');
-            	//		  }
-            	//	});
             	$.get("response/PokerClientResponse", function(data){
-            			jsObj = $.parseJSON( data );
-            			console.log(jsObj);
-            			$.each(jsObj, function(index, value) { 
-            				
+            			$.each(data, function(index, value) { 
             				if($.isArray(value)){
             			  		var x = 10;
-            			  		console.log(value);
             			  		$.each(value, function(i, cardObj){
-            			  			CardFunctions.drawCard(x, 150, cardObj[1], cardObj[0]);
-            			  			console.log(cardObj[1] + " -- " + cardObj[0] + " == " + cardObj);
+            			  			CardFunctions.drawCard(x, 150, cardObj.Value, cardObj.Suit);
             			  			x += 55;
             			  		});
             			  	} else {
-            			  		CardFunctions.drawText(10, 250, value);
+            			  		CardFunctions.drawText(10, 250, value.HandValue);
             			  	}
             				 
             			});
@@ -97,23 +67,10 @@ Card card = null;
         
 </head>
 <body>
-<ol>
-<%
-while ( handIter.hasNext() ){
-	card = handIter.next();
-%>
-	<li><%=card.getValue().displaySymbol() %> of <%=card.getSuit() %></li>
-
-	
-<%
-}
-%>
-</ol>
-
-
 
 <canvas id="PlayingTable" width="600" height="250">
         </canvas>
+<br>
 <input type="button" id="dealButton" value="Deal" onclick="getNewCards()" /> 
 </body>
 </html>
