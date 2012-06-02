@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+
+canvas#PlayingTable {
+	
+	background: #360;
+	border: 20px inset brown;
+	border-radius: 30px;
+}
