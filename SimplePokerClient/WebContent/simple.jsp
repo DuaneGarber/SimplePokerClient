@@ -50,7 +50,7 @@ Card card = null;
 						x += 55;
 					});
 				} else {
-					CardFunctions.drawText(10, 250, value.HandValue);
+					CardFunctions.drawText(10, 250, "black", value.HandValue);
 				}
 
 			});

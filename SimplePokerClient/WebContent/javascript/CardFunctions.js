@@ -1,5 +1,7 @@
 var CardFunctions = {
 	
+		//All Card Suits Courtesy of http://www.html5canvastutorials.com/labs/html5-canvas-playing-card-suits/
+		
 		drawSpade : function(x, y, topWidth, spadeHeight, bottomWidth, bottomHeight){
             
             context.beginPath();
@@ -76,6 +78,8 @@ var CardFunctions = {
             context.fillStyle = "red";
             context.fill();
         },
+        
+        // END All Card Suits Courtesy of http://www.html5canvastutorials.com/labs/html5-canvas-playing-card-suits/
 		
 		drawCardBase : function(x, y, width, height){
 			context.beginPath();
@@ -89,8 +93,8 @@ var CardFunctions = {
 			context.fill();
 		
 		},
-		drawText : function(x, y, text) {
-			context.fillStyle = '#000';
+		drawText : function(x, y, color, text) {
+			context.fillStyle = color;
 			context.font = 'bold 21px Calibri';
 			context.textBaseline = 'bottom';
 			context.fillText(text, x, y);
@@ -98,22 +102,29 @@ var CardFunctions = {
 		
 		drawCard : function(x, y, text, suit) {
 			CardFunctions.drawCardBase(x , y, 50, 70);
-			CardFunctions.drawText(x + 5, y - 45, text);
+			var color = "";
 			
 			switch (suit){
 				case "CLUBS":
 					CardFunctions.drawClub(x+35, y-68, 4, 10, 8);
+					color = "black";
 					break;
 				case "DIAMONDS":
 					CardFunctions.drawDiamond(x+35, y-68, 16, 20);
+					color = "red";
 					break;
 				case "HEARTS":
 					CardFunctions.drawHeart(x+35, y-60, 14, 14);
+					color = "red";
 					break;
 				case "SPADES":
 					CardFunctions.drawSpade(x+35, y-70, 15, 15, 12, 7);
+					color = "black";
 					break;
 			}
+			
+			CardFunctions.drawText(x + 5, y - 45, color, text);
+			
 					
 		}
 };
