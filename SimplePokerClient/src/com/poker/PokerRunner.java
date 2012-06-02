@@ -36,7 +36,7 @@ public class PokerRunner {
 	public Hand getHand(Deck deck){
 		LOG.trace("Begin -- getHand");
 		Hand hand = new Hand();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 7; i++) {
 			
 			hand.addCard(deck.getNextCard());
 		}
