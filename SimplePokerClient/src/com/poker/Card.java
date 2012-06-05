@@ -1,6 +1,9 @@
 /**
  * Basic card object, holds the suit and card value.
+ * 
+ * Author: Duane Garber
  */
+
 
 package com.poker;
 

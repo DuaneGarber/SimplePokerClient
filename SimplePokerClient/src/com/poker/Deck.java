@@ -47,6 +47,7 @@ public class Deck {
 		
 		//If a single instance of a deck can be reused, add the cards back to the deck
 		returnUsedCards();
+		
 		//Seed the random -- yes I know this isnt true random
 		long seed = System.nanoTime();
 		Collections.shuffle(this.playingCards, new Random(seed));

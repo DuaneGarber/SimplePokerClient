@@ -18,7 +18,7 @@ Iterator<Card> handIter = myHand.getCards().iterator();
 
 Card card = null;
 %>
-<title>Simple JSP</title>
+<title>Simple Poker Client</title>
 
 <link rel="stylesheet" type="text/css" href="css/poker.css" />
 <script SRC="javascript/CardFunctions.js"></script>
@@ -46,27 +46,60 @@ Card card = null;
 
 	var getNewCards = function() {
 		//Erases the canvas
-		canvas.width = canvas.width;
-
+		
+		var location = "";
+		var handValue = "";
+		
 		$.get("response/PokerClientResponse", function(data) {
-			$.each(data, function(index, value) {
-				if ($.isArray(value)) {
-					var x = 7;
-					$.each(value, function(i, cardObj) {
-						if(i == 0 || i == 1){
-							x = 225 + (55 * i);
-							CardFunctions.drawCard(x, 300, cardObj.Value, cardObj.Suit);
-						} else {
-							x = 130 + (55 * (i - 2));
-							CardFunctions.drawCard(x, 150, cardObj.Value, cardObj.Suit);
-							x += 55;
-						}
-					});
-				} else {
-					CardFunctions.drawText(10, 250, "black", value.HandValue);
-				}
 
-			});
+			location = data[0].CardLocation;
+			var cards = data[1];
+			handValue = data[2].HandValue;
+			
+			if(location == "Player"){
+				$('#dealButton').val("Get Community");
+				canvas.width = canvas.width;		
+				$.each(cards, function(i, cardObj) {
+					if(i == 0 || i == 1){
+						x = 225 + (55 * i);
+						CardFunctions.drawCard(x, 300, cardObj.Value, cardObj.Suit);
+					}
+				});
+				CardFunctions.drawText(10, 250, "black", handValue);
+			} else if(location == "Community"){
+				$.each(cards, function(i, cardObj) {
+					x = 130 + (55 * i);
+					CardFunctions.drawCard(x, 150, cardObj.Value, cardObj.Suit);
+					x += 55;
+				});
+				
+				CardFunctions.drawText(10, 250, "black", handValue);
+				$('#dealButton').val("Deal");
+			}
+			
+// 			$.each(data, function(index, value) {
+// 				location = value.CardLocation;
+// 				alert(location);
+				
+// 				location = value.HandValue;
+// 				alert(location);
+// 				if ($.isArray(value)) {
+// 					var x = 7;
+// 					$.each(value, function(i, cardObj) {
+// 						if(i == 0 || i == 1){
+// 							x = 225 + (55 * i);
+// 							CardFunctions.drawCard(x, 300, cardObj.Value, cardObj.Suit);
+// 						} else {
+// 							x = 130 + (55 * (i - 2));
+// 							CardFunctions.drawCard(x, 150, cardObj.Value, cardObj.Suit);
+// 							x += 55;
+// 						}
+// 					});
+// 				} else {
+// 					CardFunctions.drawText(10, 250, "black", value.HandValue);
+// 				}
+
+// 			});
 		});
 	};
 </script>

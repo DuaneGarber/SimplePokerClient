@@ -167,33 +167,9 @@ public class Hand {
 	}
 	
 	
-//	private boolean hasStraight(){
-//		
-//		int tempHandCount = cards.size();
-//		Card card = null;
-//		int currentValue = 0;
-//		int previousValue = -1;
-//		
-//		Iterator<Card> handIter = cards.iterator();
-//		
-//		while ( handIter.hasNext() ){
-//	    	card = handIter.next();
-//	    	tempHandCount--;
-//	    	currentValue = card.getValue().ordinal();
-//	    	if(previousValue == -1){
-//	    		continue;
-//	    	} else {
-//	    		//slots?
-//	    	}
-//	    	
-//	    	
-//	    	//cards.
-//	    	
-//	    }
-//		
-//		return false;
-//		
-//	}
+	public void addHand(Hand hand){
+		cards.addAll(hand.getCards());
+	}
 	
 
 }
