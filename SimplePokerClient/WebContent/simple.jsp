@@ -55,9 +55,8 @@ Card card = null;
 			location = data[0].CardLocation;
 			var cards = data[1];
 			handValue = data[2].HandValue;
-			
 			if(location == "Player"){
-				$('#dealButton').val("Get Community");
+				$('#dealButton').val("Get Flop");
 				canvas.width = canvas.width;		
 				$.each(cards, function(i, cardObj) {
 					if(i == 0 || i == 1){
@@ -65,17 +64,33 @@ Card card = null;
 						CardFunctions.drawCard(x, 300, cardObj.Value, cardObj.Suit);
 					}
 				});
-				CardFunctions.drawText(10, 250, "black", handValue);
-			} else if(location == "Community"){
+				CardFunctions.drawText(10, 200, "black", handValue);
+			} else if(location == "FLOP"){
 				$.each(cards, function(i, cardObj) {
 					x = 130 + (55 * i);
 					CardFunctions.drawCard(x, 150, cardObj.Value, cardObj.Suit);
 					x += 55;
 				});
 				
-				CardFunctions.drawText(10, 250, "black", handValue);
-				$('#dealButton').val("Deal");
+				CardFunctions.drawText(10, 220, "black", handValue);
+				$('#dealButton').val("Get Turn");
 			}
+			else if(location == "TURN"){
+				$.each(cards, function(i, cardObj) {
+					CardFunctions.drawCard(295, 150, cardObj.Value, cardObj.Suit);
+				});
+				CardFunctions.drawText(10, 240, "black", handValue);
+				$('#dealButton').val("Get River");
+			}
+			else if(location == "RIVER"){
+				$.each(cards, function(i, cardObj) {
+					CardFunctions.drawCard(350, 150, cardObj.Value, cardObj.Suit);
+				});
+				CardFunctions.drawText(10, 260, "black", handValue);
+				$('#dealButton').val("New Hand");
+			}
+		
+			
 			
 // 			$.each(data, function(index, value) {
 // 				location = value.CardLocation;
