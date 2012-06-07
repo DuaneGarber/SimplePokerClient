@@ -33,15 +33,6 @@ Card card = null;
 
 		canvas = document.getElementById("PlayingTable");
 		context = canvas.getContext("2d");
-		
-// 		CardFunctions.drawCard(225, 300, "A", "HEARTS");
-// 		CardFunctions.drawCard(280, 300, "A", "DIAMONDS");
-		
-// 		CardFunctions.drawCard(130, 150, "K", "HEARTS");
-// 		CardFunctions.drawCard(185, 150, "K", "DIAMONDS");
-// 		CardFunctions.drawCard(240, 150, "K", "CLUBS");
-// 		CardFunctions.drawCard(295, 150, "K", "SPADES");
-// 		CardFunctions.drawCard(350, 150, "A", "SPADES");
 	});
 
 	var getNewCards = function() {
@@ -93,31 +84,6 @@ Card card = null;
 			}
 			
 			CardFunctions.updateHandRank(handValue.toLowerCase());
-			
-			
-// 			$.each(data, function(index, value) {
-// 				location = value.CardLocation;
-// 				alert(location);
-				
-// 				location = value.HandValue;
-// 				alert(location);
-// 				if ($.isArray(value)) {
-// 					var x = 7;
-// 					$.each(value, function(i, cardObj) {
-// 						if(i == 0 || i == 1){
-// 							x = 225 + (55 * i);
-// 							CardFunctions.drawCard(x, 300, cardObj.Value, cardObj.Suit);
-// 						} else {
-// 							x = 130 + (55 * (i - 2));
-// 							CardFunctions.drawCard(x, 150, cardObj.Value, cardObj.Suit);
-// 							x += 55;
-// 						}
-// 					});
-// 				} else {
-// 					CardFunctions.drawText(10, 250, "black", value.HandValue);
-// 				}
-
-// 			});
 		});
 	};
 </script>
