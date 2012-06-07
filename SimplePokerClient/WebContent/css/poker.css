@@ -6,3 +6,26 @@ canvas#PlayingTable {
 	border: 20px inset brown;
 	border-radius: 30px;
 }
+
+span#handRanking {
+	display: inline-block;
+}
+
+table#tableHandRanking {
+	background: #630;
+	border: 10px inset red;
+	border-radius: 15px;
+}
+
+td.rank {
+	color: black;
+	font-weight: bold;
+}
+
+td.current {
+	color: white;
+}
+
+td.previous {
+	color: #F33;
+}

@@ -126,5 +126,14 @@ var CardFunctions = {
 			CardFunctions.drawText(x + 5, y - 45, color, text);
 			
 					
+		},
+		
+		updateHandRank : function(target_id) {
+			
+			if(target_id != $("td.current").attr("id")){
+				$("td.current").removeClass("current").addClass("previous");
+			}
+			
+			$("#" + target_id).addClass("current");
 		}
 };

@@ -56,6 +56,8 @@ Card card = null;
 			var cards = data[1];
 			handValue = data[2].HandValue;
 			if(location == "Player"){
+				$('td.current').removeClass('current');
+				$('td.previous').removeClass('previous');
 				$('#dealButton').val("Get Flop");
 				canvas.width = canvas.width;		
 				$.each(cards, function(i, cardObj) {
@@ -64,7 +66,7 @@ Card card = null;
 						CardFunctions.drawCard(x, 300, cardObj.Value, cardObj.Suit);
 					}
 				});
-				CardFunctions.drawText(10, 200, "black", handValue);
+				//CardFunctions.drawText(10, 200, "black", handValue);
 			} else if(location == "FLOP"){
 				$.each(cards, function(i, cardObj) {
 					x = 130 + (55 * i);
@@ -72,24 +74,25 @@ Card card = null;
 					x += 55;
 				});
 				
-				CardFunctions.drawText(10, 220, "black", handValue);
+				//CardFunctions.drawText(10, 220, "black", handValue);
 				$('#dealButton').val("Get Turn");
 			}
 			else if(location == "TURN"){
 				$.each(cards, function(i, cardObj) {
 					CardFunctions.drawCard(295, 150, cardObj.Value, cardObj.Suit);
 				});
-				CardFunctions.drawText(10, 240, "black", handValue);
+				//CardFunctions.drawText(10, 240, "black", handValue);
 				$('#dealButton').val("Get River");
 			}
 			else if(location == "RIVER"){
 				$.each(cards, function(i, cardObj) {
 					CardFunctions.drawCard(350, 150, cardObj.Value, cardObj.Suit);
 				});
-				CardFunctions.drawText(10, 260, "black", handValue);
+				//CardFunctions.drawText(10, 260, "black", handValue);
 				$('#dealButton').val("New Hand");
 			}
-		
+			
+			CardFunctions.updateHandRank(handValue.toLowerCase());
 			
 			
 // 			$.each(data, function(index, value) {
@@ -123,6 +126,41 @@ Card card = null;
 <body>
 
 	<canvas id="PlayingTable" width="600" height="300"> </canvas>
+	<span id="handRanking">
+	<table id="tableHandRanking">
+		<tr>
+			<td id="royal_flush" class="rank"> Royal Flush </td>
+		</tr>
+		<tr>
+			<td id="straight_flush" class="rank"> Straight Flush </td>
+		</tr>
+		<tr>
+			<td id="four_of_a_kind" class="rank"> Four of a Kind </td>
+		</tr>
+		<tr>
+			<td id="full_house" class="rank"> Full House </td>
+		</tr>
+		<tr>
+			<td id="flush" class="rank"> Flush </td>
+		</tr>
+		<tr>
+			<td id="straight" class="rank"> Straight </td>
+		</tr>
+		<tr>
+			<td id="three_of_a_kind" class="rank"> Three Of a Kind </td>
+		</tr>
+		<tr>
+			<td id="two_pair" class="rank"> Two Pair </td>
+		</tr>
+		<tr>
+			<td id="pair" class="rank"> Pair </td>
+		</tr>
+		<tr>
+			<td id="high_card" class="rank"> High Card </td>
+		</tr>
+		
+	</table>
+	</span>
 	<br>
 	<input type="button" id="dealButton" value="Deal"
 		onclick="getNewCards()" />
