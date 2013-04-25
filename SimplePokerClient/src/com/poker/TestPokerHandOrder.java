@@ -22,9 +22,9 @@ public class TestPokerHandOrder {
     public void testEvaluateHand() {
 
         // Test Royal Flush
-        testRoyalFlush();
+//        testRoyalFlush();
 
-        testStraightFlush();
+//        testStraightFlush();
 
         testFourOfAKind();
 
@@ -52,7 +52,7 @@ public class TestPokerHandOrder {
         hand.addCard(new Card(Suit.HEARTS, Value.THREE));
         hand.addCard(new Card(Suit.SPADES, Value.FOUR));
         hand.addCard(new Card(Suit.DIAMONDS, Value.FIVE));
-        assertEquals(HandOrder.THREE_OF_A_KIND, hand.evaluateHand());
+        assertEquals(HandOrder.PAIR, hand.evaluateHand());
         
     }
 
@@ -66,7 +66,7 @@ public class TestPokerHandOrder {
         hand.addCard(new Card(Suit.HEARTS, Value.FOUR));
         hand.addCard(new Card(Suit.SPADES, Value.FOUR));
         hand.addCard(new Card(Suit.DIAMONDS, Value.FIVE));
-        assertEquals(HandOrder.THREE_OF_A_KIND, hand.evaluateHand());
+        assertEquals(HandOrder.TWO_PAIR, hand.evaluateHand());
         
     }
 
@@ -81,6 +81,17 @@ public class TestPokerHandOrder {
         hand.addCard(new Card(Suit.SPADES, Value.FOUR));
         hand.addCard(new Card(Suit.DIAMONDS, Value.FIVE));
         assertEquals(HandOrder.THREE_OF_A_KIND, hand.evaluateHand());
+        
+        
+        
+//        hand.addCard(new Card(Suit.SPADES, Value.THREE));
+//        hand.addCard(new Card(Suit.CLUBS, Value.THREE));
+//        hand.addCard(new Card(Suit.HEARTS, Value.THREE));
+//        hand.addCard(new Card(Suit.SPADES, Value.FOUR));
+//        hand.addCard(new Card(Suit.DIAMONDS, Value.FOUR));
+//        hand.addCard(new Card(Suit.CLUBS, Value.FOUR));
+//        HandOrder order = hand.evaluateHand();
+//        assertEquals(Value.FOUR, order.getHighCard());
         
     }
 
@@ -178,6 +189,7 @@ public class TestPokerHandOrder {
         hand.addCard(new Card(Suit.HEARTS, Value.FOUR));
         hand.addCard(new Card(Suit.CLUBS, Value.ACE));
         hand.addCard(new Card(Suit.CLUBS, Value.FIVE));
+        hand.addCard(new Card(Suit.CLUBS, Value.QUEEN));
         assertEquals(HandOrder.FLUSH, hand.evaluateHand());
 
     }
